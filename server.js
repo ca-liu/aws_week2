@@ -31,10 +31,9 @@ app.post("/api/images", upload.single('image'), async (req, res) => {
     const file = req.file
     const imagePath = req.file.path
     const description = req.body.description
-    const result = await s3.uploadFile(file)
-    console.log(result)
+    await s3.uploadFile(file)
     const image = await database.addImage(imagePath, description)
-    const unlink = await unlinkFile(imagePath)
+    await unlinkFile(imagePath)
     res.send({ image })
 })
 
